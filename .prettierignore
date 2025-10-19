@@ -1,0 +1,14 @@
+node_modules
+artifacts
+cache
+coverage
+deployments
+dist
+typechain-types
+*.env
+.env.*
+.pnp.*
+package-lock.json
+*.log
+.DS_Store
+gas-report.txt
