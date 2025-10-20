@@ -2,6 +2,14 @@
 
 A revolutionary confidential culinary technology platform that leverages Fully Homomorphic Encryption (FHE) to protect proprietary recipes and cooking formulas. This decentralized application enables chefs and culinary professionals to securely share their secret recipes while maintaining complete privacy and control over their intellectual property.
 
+## 🌐 Live Demonstration
+
+**Website**: [https://secret-recipe-protection.vercel.app/](https://secret-recipe-protection.vercel.app/)
+
+**GitHub Repository**: [https://github.com/MayeSchuppe/SecretRecipeProtection](https://github.com/MayeSchuppe/SecretRecipeProtection)
+
+**Smart Contract Address**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612`
+
 ## 🔐 Core Concept
 
 Secret Recipe Protection utilizes cutting-edge FHE smart contracts to create an unprecedented level of privacy for culinary creations. Chefs can encrypt their secret ingredients, cooking techniques, and proprietary formulas on-chain, allowing them to monetize their knowledge without revealing sensitive information until proper authorization is granted.
