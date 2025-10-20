@@ -1,0 +1,12 @@
+node_modules/
+artifacts/
+cache/
+coverage/
+dist/
+build/
+typechain-types/
+deployments/
+*.min.js
+*.config.js
+.env
+.env.*
