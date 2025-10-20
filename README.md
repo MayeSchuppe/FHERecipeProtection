@@ -2,13 +2,6 @@
 
 A revolutionary confidential culinary technology platform that leverages Fully Homomorphic Encryption (FHE) to protect proprietary recipes and cooking formulas. This decentralized application enables chefs and culinary professionals to securely share their secret recipes while maintaining complete privacy and control over their intellectual property.
 
-## 🌐 Live Demonstration
-
-**Website**: [https://secret-recipe-protection.vercel.app/](https://secret-recipe-protection.vercel.app/)
-
-**GitHub Repository**: [https://github.com/MayeSchuppe/SecretRecipeProtection](https://github.com/MayeSchuppe/SecretRecipeProtection)
-
-**Smart Contract Address**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612`
 
 ## 🔐 Core Concept
 
@@ -58,9 +51,9 @@ The platform utilizes Fully Homomorphic Encryption (FHE) smart contracts to enab
 
 ## 🌐 Live Demonstration
 
-**Website**: [https://secret-recipe-protection.vercel.app/](https://secret-recipe-protection.vercel.app/)
+**Website**: [https://fhe-recipe-protection.vercel.app/](https://fhe-recipe-protection.vercel.app/)
 
-**GitHub Repository**: [https://github.com/MayeSchuppe/SecretRecipeProtection](https://github.com/MayeSchuppe/SecretRecipeProtection)
+**GitHub Repository**: [https://github.com/MayeSchuppe/FHERecipeProtection](https://github.com/MayeSchuppe/FHERecipeProtection)
 
 **Smart Contract Address**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612`
 
@@ -80,7 +73,7 @@ The platform utilizes Fully Homomorphic Encryption (FHE) smart contracts to enab
 
 ```bash
 # Clone the repository
-git clone https://github.com/MayeSchuppe/SecretRecipeProtection.git
+git clone https://github.com/MayeSchuppe/FHERecipeProtection.git
 cd SecretRecipeProtection
 
 # Install dependencies
@@ -337,7 +330,7 @@ Potential areas for enhancement:
 
 For questions, suggestions, or collaboration opportunities:
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/MayeSchuppe/SecretRecipeProtection/issues)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/MayeSchuppe/FHERecipeProtection/issues)
 - **Discussions**: Join our community forum for technical discussions
 - **Website**: Visit our live platform for demonstrations
 
