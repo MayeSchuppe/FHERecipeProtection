@@ -14,6 +14,8 @@ A revolutionary confidential culinary technology platform that leverages Fully H
 
 **Etherscan**: [View Contract](https://sepolia.etherscan.io/address/0x72E13974c2158A875bAdbc860bfe7A3d932AA612)
 
+**Video Demo**: demo.mp4
+
 
 ## 🔐 Core Concept
 
