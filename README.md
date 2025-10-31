@@ -118,20 +118,34 @@ npm run interact:sepolia
 ```
 secret-recipe-protection/
 ├── contracts/
-│   └── SecretRecipeProtection.sol    # Main FHE smart contract
+│   ├── SecretRecipeProtection.sol    # Main FHE smart contract
+│   └── RecipeVault.sol               # Additional vault contract
 ├── scripts/
-│   ├── deploy.js                     # Deployment script
-│   ├── verify.js                     # Etherscan verification
-│   ├── interact.js                   # Contract interaction examples
-│   └── simulate.js                   # Full workflow simulation
-├── test/
-│   └── SecretRecipeProtection.test.js # Comprehensive test suite
+│   └── deploy.js                     # Deployment script
+├── test/                             # Test directory
+├── index.html                        # Static frontend (29KB)
 ├── hardhat.config.js                 # Hardhat configuration
 ├── package.json                      # Dependencies and scripts
-├── .env.example                      # Environment template
-├── DEPLOYMENT.md                     # Detailed deployment guide
-└── README.md                         # This file
+├── vercel.json                       # Vercel deployment config
+├── SecretRecipeProtection.mp4        # Video demonstration (1.3MB)
+└── README.md                         # Documentation
 ```
+
+### Dual-Location Architecture
+
+The project exists in two locations with coordinated functionality:
+
+**D:\recipe-protection** (Standalone dApp):
+- Complete static HTML frontend with inline JavaScript
+- Independent deployment configuration
+- Self-contained smart contracts and deployment scripts
+- Vercel-ready static site deployment
+
+**D:\fhevm-react-template\examples\recipe-protection** (SDK Integration):
+- Integrated with @fhevm/sdk package
+- Part of larger FHEVM React template ecosystem
+- Demonstrates SDK usage patterns
+- Linked to monorepo packages
 
 ### Smart Contract Components
 
@@ -156,33 +170,72 @@ SecretRecipeProtection.sol
 
 ## 🛠️ Development Framework
 
+### Technology Stack
+
+**Smart Contract Development**:
+- **Solidity**: v0.8.24 with Cancun EVM version
+- **Hardhat**: v2.19.0+ (Smart contract development framework)
+- **Optimization**: Enabled with 200 runs for gas efficiency
+- **FHE Integration**: @fhevm/solidity v0.5.0 for encrypted data types
+
+**Frontend Technologies**:
+- **Static HTML/CSS/JS**: Pure vanilla JavaScript implementation
+- **Web3 Library**: ethers.js v5.7.2 for blockchain interaction
+- **Deployment**: Vercel with static site configuration
+- **Styling**: Custom CSS with cyberpunk/terminal theme
+
+**Development Tools**:
+- **@nomicfoundation/hardhat-toolbox**: Complete development toolkit
+- **@nomicfoundation/hardhat-verify**: Etherscan verification
+- **dotenv**: Environment variable management
+
 ### Hardhat Configuration
 
 The project uses Hardhat as the primary development framework with:
 
-- **Compiler**: Solidity 0.8.24 with optimization enabled
+- **Compiler**: Solidity 0.8.24 with optimization enabled (200 runs)
+- **EVM Version**: Cancun (latest features support)
 - **Testing**: Comprehensive test suite with Chai matchers
-- **Networks**: Hardhat, Localhost, Sepolia, Mainnet
+- **Networks**:
+  - **Zama Devnet**: https://devnet.zama.ai (Chain ID: 8009)
+  - **Localhost**: http://127.0.0.1:8545
+  - **Sepolia Testnet**: Chain ID 11155111
 - **Plugins**:
   - `@nomicfoundation/hardhat-toolbox` - Complete development toolkit
   - `@nomicfoundation/hardhat-verify` - Etherscan verification
   - `dotenv` - Environment variable management
 
+### Dependencies
+
+**Production Dependencies**:
+```json
+{
+  "@fhevm/sdk": "file:../../packages/fhevm-sdk",
+  "@fhevm/solidity": "^0.5.0",
+  "ethers": "^6.10.0",
+  "hardhat": "^2.19.0"
+}
+```
+
+**Development Dependencies**:
+```json
+{
+  "@nomicfoundation/hardhat-toolbox": "^4.0.0"
+}
+```
+
+**Frontend Libraries** (CDN-loaded in index.html):
+- ethers.js v5.7.2 (via CDN)
+
 ### Available Scripts
 
 | Command | Description |
 |---------|-------------|
+| `npm install` | Install all dependencies |
 | `npm run compile` | Compile smart contracts |
 | `npm test` | Run test suite |
-| `npm run test:coverage` | Run tests with coverage report |
-| `npm run deploy:localhost` | Deploy to local network |
-| `npm run deploy:sepolia` | Deploy to Sepolia testnet |
-| `npm run verify:sepolia` | Verify contract on Etherscan |
-| `npm run interact:localhost` | Interact with local deployment |
-| `npm run interact:sepolia` | Interact with Sepolia deployment |
-| `npm run simulate` | Run full workflow simulation |
+| `npm run deploy` | Deploy to configured network |
 | `npm run node` | Start local Hardhat node |
-| `npm run clean` | Clean build artifacts |
 
 ## 📊 Contract Deployment
 
@@ -197,7 +250,90 @@ The project uses Hardhat as the primary development framework with:
 
 **Verified Contract**: [View on Etherscan](https://sepolia.etherscan.io/address/0x72E13974c2158A875bAdbc860bfe7A3d932AA612)
 
-For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
+## 💻 Frontend Implementation
+
+### Static HTML Architecture
+
+The frontend is implemented as a single-page application using vanilla JavaScript:
+
+**File Structure**:
+- `index.html` - Complete application (29,698 bytes)
+  - Inline CSS styling (~500+ lines)
+  - Inline JavaScript (~1000+ lines)
+  - No build process required
+
+**Key Features**:
+- **Wallet Integration**: MetaMask connection and account management
+- **Contract Interaction**: Direct ethers.js integration for smart contract calls
+- **Responsive Design**: Mobile-friendly cyberpunk-themed interface
+- **Real-time Updates**: Dynamic UI updates based on blockchain state
+- **Form Validation**: Client-side validation for recipe submission
+- **Access Control UI**: Request, approval, and revelation workflows
+
+**Design Theme**:
+- Cyberpunk/terminal aesthetic with cyan and magenta accents
+- Glowing text effects and animated gradients
+- Card-based layout with backdrop blur effects
+- Responsive grid system for multiple screen sizes
+
+**Browser Compatibility**:
+- Modern browsers with ES6+ support
+- MetaMask or Web3-compatible wallet required
+- Ethers.js v5.7.2 loaded via CDN
+
+### Deployment Configuration
+
+**Vercel Configuration** (`vercel.json`):
+```json
+{
+  "version": 2,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
+```
+
+This configuration enables:
+- Static file deployment
+- Single-page application routing
+- Fast global CDN distribution
+- Zero server-side processing required
+
+## 🔄 Technology Stack Comparison
+
+### Recipe Protection Implementations
+
+The project has two implementations serving different purposes:
+
+| Aspect | D:\recipe-protection | fhevm-react-template\examples\recipe-protection |
+|--------|---------------------------------------|------------------------------------------------|
+| **Frontend** | Static HTML/CSS/JS (29KB single file) | Static HTML/CSS/JS (same codebase) |
+| **Build Tool** | None (pure vanilla) | None (pure vanilla) |
+| **Dependencies** | ethers.js v5.7.2 (CDN) | ethers.js v5.7.2 (CDN) |
+| **SDK Integration** | Standalone | Linked to @fhevm/sdk package |
+| **Smart Contracts** | SecretRecipeProtection.sol, RecipeVault.sol | Same contracts |
+| **Deployment** | Vercel static | Vercel static |
+| **Purpose** | Production standalone dApp | SDK example/template |
+| **Package Manager** | npm (for Hardhat only) | npm (monorepo context) |
+
+### Technology Benefits
+
+**Static HTML Approach**:
+- ✅ Zero build time
+- ✅ No framework dependencies
+- ✅ Fast load times
+- ✅ Easy to deploy anywhere
+- ✅ Simple to understand and modify
+- ✅ No compilation step required
+
+**FHE Smart Contract Integration**:
+- ✅ Encrypted data storage on-chain
+- ✅ Privacy-preserving computations
+- ✅ Secure access control
+- ✅ Immutable ownership records
 
 ## 🧪 Testing
 
@@ -284,13 +420,24 @@ Traditional encryption requires decryption before computation, exposing sensitiv
 
 This project demonstrates practical applications of:
 
-- Fully Homomorphic Encryption in blockchain
-- Privacy-preserving smart contract design
-- Decentralized access control systems
-- Web3 integration with modern UI frameworks
-- Cryptographic recipe protection methodologies
-- Hardhat development and testing workflows
-- Professional deployment and verification practices
+- **Fully Homomorphic Encryption** in blockchain smart contracts
+- **Privacy-preserving smart contract design** with encrypted data types
+- **Decentralized access control systems** for intellectual property
+- **Web3 integration** with vanilla JavaScript (no framework overhead)
+- **Cryptographic recipe protection** methodologies
+- **Hardhat development** and testing workflows
+- **Professional deployment** and verification practices
+- **Static site deployment** with Vercel for Web3 dApps
+- **EVM Cancun features** and optimization strategies
+- **Zama FHEVM integration** with practical use cases
+
+### Key Learning Points
+
+1. **Simple Frontend Stack**: Demonstrates that complex Web3 functionality doesn't require heavy frameworks
+2. **FHE Implementation**: Shows real-world FHE usage in Solidity with @fhevm/solidity
+3. **Deployment Strategies**: Covers both standalone and monorepo integration patterns
+4. **Gas Optimization**: 200-run optimization for production-ready contracts
+5. **Network Configuration**: Multi-network support (Zama, Localhost, Sepolia)
 
 ## 🤝 Contributing
 
@@ -344,6 +491,31 @@ Secret Recipe Protection represents the future of culinary intellectual property
 
 ---
 
+## 📝 Recent Updates
+
+### Technology Stack Documentation (Latest)
+
+This README has been enhanced with comprehensive technology stack information including:
+
+- ✅ **Complete Dependencies**: All production and development dependencies documented
+- ✅ **Frontend Architecture**: Static HTML implementation details with file sizes
+- ✅ **Network Configuration**: Zama Devnet, Localhost, and Sepolia configuration
+- ✅ **Deployment Details**: Vercel configuration and deployment strategy
+- ✅ **EVM Version**: Cancun EVM features documented
+- ✅ **Optimization Settings**: 200-run optimization for gas efficiency
+- ✅ **Dual-Location Setup**: Both standalone and monorepo integrations explained
+- ✅ **Technology Comparison**: Side-by-side comparison table of implementations
+- ✅ **CDN Dependencies**: ethers.js v5.7.2 CDN integration documented
+
+### Project Locations
+
+1. **D:\recipe-protection**: Standalone production dApp
+2. **D:\fhevm-react-template\examples\recipe-protection**: SDK integration example
+
+Both implementations share the same smart contracts and frontend code, but serve different purposes in the ecosystem.
+
+---
+
 **Built with cutting-edge FHE technology and Hardhat development framework to protect culinary innovation worldwide.**
 
-**Deployment**: Sepolia Testnet | **Contract**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612` | **Framework**: Hardhat
+**Deployment**: Sepolia Testnet | **Contract**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612` | **Framework**: Hardhat v2.19.0+ | **Solidity**: v0.8.24 (Cancun) | **Frontend**: Vanilla JavaScript + ethers.js v5.7.2

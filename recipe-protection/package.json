@@ -1,0 +1,21 @@
+{
+  "name": "recipe-protection-example",
+  "version": "1.0.0",
+  "description": "Confidential recipe protection dApp using FHEVM SDK",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js",
+    "test": "hardhat test",
+    "node": "hardhat node"
+  },
+  "dependencies": {
+    "@fhevm/sdk": "file:../../packages/fhevm-sdk",
+    "@fhevm/solidity": "^0.5.0",
+    "ethers": "^6.10.0",
+    "hardhat": "^2.19.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0"
+  }
+}
