@@ -2,6 +2,18 @@
 
 A revolutionary confidential culinary technology platform that leverages Fully Homomorphic Encryption (FHE) to protect proprietary recipes and cooking formulas. This decentralized application enables chefs and culinary professionals to securely share their secret recipes while maintaining complete privacy and control over their intellectual property.
 
+## 🌐 Live Demonstration
+
+**Website**: [https://fhe-recipe-protection.vercel.app/](https://fhe-recipe-protection.vercel.app/)
+
+**GitHub Repository**: [https://github.com/MayeSchuppe/FHERecipeProtection](https://github.com/MayeSchuppe/FHERecipeProtection)
+
+**Smart Contract Address**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612`
+
+**Network**: Sepolia Testnet (Chain ID: 11155111)
+
+**Etherscan**: [View Contract](https://sepolia.etherscan.io/address/0x72E13974c2158A875bAdbc860bfe7A3d932AA612)
+
 
 ## 🔐 Core Concept
 
@@ -49,17 +61,7 @@ The platform utilizes Fully Homomorphic Encryption (FHE) smart contracts to enab
 - **Cooking Time** - Encrypted uint32 for precise timing information
 - **Access Permissions** - Encrypted boolean flags for authorization status
 
-## 🌐 Live Demonstration
 
-**Website**: [https://fhe-recipe-protection.vercel.app/](https://fhe-recipe-protection.vercel.app/)
-
-**GitHub Repository**: [https://github.com/MayeSchuppe/FHERecipeProtection](https://github.com/MayeSchuppe/FHERecipeProtection)
-
-**Smart Contract Address**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612`
-
-**Network**: Sepolia Testnet (Chain ID: 11155111)
-
-**Etherscan**: [View Contract](https://sepolia.etherscan.io/address/0x72E13974c2158A875bAdbc860bfe7A3d932AA612)
 
 ## 🚀 Quick Start
 
