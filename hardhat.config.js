@@ -18,7 +18,7 @@ module.exports = {
           }
         }
       },
-      viaIR: false,
+      viaIR: true,
       metadata: {
         bytecodeHash: "none"
       },

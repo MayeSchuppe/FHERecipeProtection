@@ -2,20 +2,26 @@
 
 A revolutionary confidential culinary technology platform that leverages Fully Homomorphic Encryption (FHE) to protect proprietary recipes and cooking formulas. This decentralized application enables chefs and culinary professionals to securely share their secret recipes while maintaining complete privacy and control over their intellectual property.
 
-## 🌐 Live Demonstration
+## 🌐 Live Demo
 
 **Website**: [https://fhe-recipe-protection.vercel.app/](https://fhe-recipe-protection.vercel.app/)
 
-**GitHub Repository**: [https://github.com/MayeSchuppe/FHERecipeProtection](https://github.com/MayeSchuppe/FHERecipeProtection)
+## 🎬 Demo Video
 
-**Smart Contract Address**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612`
+**Demo Video**: The `demo.mp4` file demonstrates how chefs can protect their secret recipes using FHE encryption technology.
 
-**Network**: Sepolia Testnet (Chain ID: 11155111)
+## 🌟 Enhanced Features (v2.0)
 
-**Etherscan**: [View Contract](https://sepolia.etherscan.io/address/0x72E13974c2158A875bAdbc860bfe7A3d932AA612)
+### New in This Version
 
-**Video Demo**: demo.mp4
-
+✅ **Gateway Callback Pattern** - Asynchronous processing for all encrypted operations
+✅ **Refund Mechanism** - Automatic refunds for denied requests and decryption failures
+✅ **Timeout Protection** - 7-day timeout prevents permanent fund locking
+✅ **Privacy-Preserving Division** - Random multiplier obfuscation for encrypted prices
+✅ **Price Obfuscation** - Advanced techniques to prevent price pattern analysis
+✅ **Comprehensive Security** - Input validation, access control, overflow protection, reentrancy guards
+✅ **Gas Optimization** - Efficient HCU (Homomorphic Computation Unit) usage
+✅ **Enhanced Documentation** - Complete architecture and API documentation
 
 ## 🔐 Core Concept
 
@@ -29,6 +35,7 @@ Traditional recipe sharing platforms expose valuable culinary secrets to potenti
 - **Selective disclosure** - Chefs control exactly who can access their recipes and under what conditions
 - **Verifiable ownership** - Blockchain technology provides immutable proof of recipe authorship and creation dates
 - **Monetization without exposure** - Access requests can be processed with encrypted data, protecting formulas even during verification
+- **Price privacy** - Obfuscation techniques prevent analysis of recipe pricing patterns
 
 ## 🎯 Key Features
 
@@ -39,6 +46,8 @@ Traditional recipe sharing platforms expose valuable culinary secrets to potenti
 - **Access Control Management** - Approve or deny access requests to your proprietary recipes
 - **Revenue Generation** - Set custom pricing for recipe access and earn from your culinary expertise
 - **Public/Private Toggle** - Choose whether recipes are openly viewable or require paid access
+- **Automatic Refund System** - Built-in refund mechanism for denied requests
+- **Timeout Protection** - Automatic refund for requests not processed within 7 days
 
 ### For Food Enthusiasts
 
@@ -46,6 +55,8 @@ Traditional recipe sharing platforms expose valuable culinary secrets to potenti
 - **Secure Access Requests** - Pay to unlock secret formulas and techniques from professional chefs
 - **Encrypted Data Handling** - All sensitive recipe information remains encrypted using FHE technology
 - **Recipe Collections** - Build your personal library of licensed professional recipes
+- **Refund Protection** - Automatic refunds if access is denied or times out
+- **Transparent Pricing** - Clear access costs with privacy-preserving obfuscation
 
 ## 🔬 FHE Smart Contract Technology
 
@@ -55,15 +66,104 @@ The platform utilizes Fully Homomorphic Encryption (FHE) smart contracts to enab
 - **Encrypted Computations** - Spice levels and cooking parameters processed without exposure
 - **Zero-Knowledge Verification** - Access control enforced without revealing recipe details
 - **Permanent Confidentiality** - Even contract operators cannot view encrypted recipe data
+- **Gateway Callback Pattern** - Asynchronous decryption via trusted FHE Gateway
 
 ### Encrypted Data Types
 
 - **Secret Ingredients** - Three encrypted uint32 values for proprietary ingredient codes
 - **Spice Level** - Encrypted uint8 value (0-10 scale) for heat sensitivity
 - **Cooking Time** - Encrypted uint32 for precise timing information
+- **Access Price** - Encrypted uint64 with obfuscation multiplier for price privacy
 - **Access Permissions** - Encrypted boolean flags for authorization status
 
+## 🏗️ Gateway Callback Architecture
 
+The system implements an innovative **asynchronous Gateway callback pattern**:
+
+```
+1. User Request → Smart Contract Records → Escrows Payment
+2. Gateway Processes → Performs FHE Operations → Generates Proofs
+3. Callback Execution → Verifies Proofs → Completes Transaction
+4. Finalization → Distributes Payments or Issues Refunds
+```
+
+### Benefits of Gateway Pattern:
+
+- **Reliability** - Timeout protection prevents stuck transactions
+- **Security** - Cryptographic proof verification via FHE.checkSignatures()
+- **Scalability** - Off-chain computation reduces gas costs
+- **Flexibility** - Handles complex FHE operations efficiently
+
+## 🛡️ Advanced Security Features
+
+### Input Validation
+- Maximum string lengths enforced (100 chars names, 50 chars categories)
+- Bounds checking on all numeric inputs
+- Price caps to prevent overflow (max 10 ETH)
+- Cooking time validation (must be positive)
+
+### Access Control
+- Multi-tier permission system with modifiers
+- Recipe owner validation
+- Existence checks before operations
+- Fine-grained FHE permission management
+
+### Overflow Protection
+- Constants for all maximum values
+- Checked arithmetic throughout
+- No unchecked operations
+
+### Reentrancy Protection
+- NonReentrant modifier on all payment functions
+- State changes before external calls
+- Proper use of call() for ETH transfers
+
+## 💰 Refund Mechanisms
+
+### Automatic Refunds
+- **Denial Refunds** - Instant refund when chef denies access request
+- **Timeout Refunds** - Claimable after 7-day timeout period
+- **Decryption Failure** - Event logging for recovery processes
+
+### Refund Flow
+```
+Access Request (Payment Escrowed)
+  ↓
+Chef Denies → Automatic Refund
+  or
+7 Days Pass → Claimable Refund
+  or
+Approved → Payment to Chef
+```
+
+## 🔒 Privacy-Preserving Techniques
+
+### Price Obfuscation
+
+Traditional encrypted prices can leak information through transaction patterns. Our solution uses **random multiplier obfuscation**:
+
+```solidity
+// Generate random multiplier (100-1000)
+uint256 obfuscationMultiplier = 100 + (random % 900);
+
+// Obfuscate price before encryption
+uint64 obfuscatedPrice = (actualPrice * obfuscationMultiplier) / 100;
+euint64 encryptedPrice = FHE.asEuint64(obfuscatedPrice);
+```
+
+**Benefits**:
+- Prevents price pattern analysis
+- Maintains computational privacy
+- Allows encrypted comparisons without division
+- No division on encrypted values (uses multiplication)
+
+### Division Problem Solution
+
+FHE encryption makes division operations extremely expensive. Our solution:
+- Uses **multiplication instead of division** for price calculations
+- Random multipliers create privacy noise
+- Public validation prices stored separately for payment verification
+- Encrypted prices used only for homomorphic operations
 
 ## 🚀 Quick Start
 
@@ -72,12 +172,13 @@ The platform utilizes Fully Homomorphic Encryption (FHE) smart contracts to enab
 - Node.js v18 or later
 - npm or yarn package manager
 - MetaMask or another Web3 wallet
+- Sepolia testnet ETH (for deployment)
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/MayeSchuppe/FHERecipeProtection.git
+git clone <repository-url>
 cd SecretRecipeProtection
 
 # Install dependencies
@@ -93,251 +194,54 @@ cp .env.example .env
 
 ```bash
 # Compile contracts
-npm run compile
+npx hardhat compile
 
 # Run tests
-npm test
+npx hardhat test
 
-# Run full simulation
-npm run simulate
+# Run coverage
+npx hardhat coverage
 
 # Deploy to local network
-npm run node              # Terminal 1
-npm run deploy:localhost  # Terminal 2
+npx hardhat node              # Terminal 1
+npx hardhat run scripts/deploy.js --network localhost  # Terminal 2
 
 # Deploy to Sepolia testnet
-npm run deploy:sepolia
+npx hardhat run scripts/deploy.js --network sepolia
 
 # Verify on Etherscan
-npm run verify:sepolia
-
-# Interact with deployed contract
-npm run interact:sepolia
+npx hardhat verify --network sepolia <CONTRACT_ADDRESS>
 ```
 
-## 🏗️ Architecture
+## 📖 Documentation
 
-### Project Structure
+### Comprehensive Documentation Suite
 
-```
-secret-recipe-protection/
-├── contracts/
-│   ├── SecretRecipeProtection.sol    # Main FHE smart contract
-│   └── RecipeVault.sol               # Additional vault contract
-├── scripts/
-│   └── deploy.js                     # Deployment script
-├── test/                             # Test directory
-├── index.html                        # Static frontend (29KB)
-├── hardhat.config.js                 # Hardhat configuration
-├── package.json                      # Dependencies and scripts
-├── vercel.json                       # Vercel deployment config
-├── SecretRecipeProtection.mp4        # Video demonstration (1.3MB)
-└── README.md                         # Documentation
-```
+- **[Architecture Guide](./docs/ARCHITECTURE.md)** - System design, Gateway pattern, security analysis
+- **[API Reference](./docs/API.md)** - Complete function documentation with examples
+- **[Security Audit](./SECURITY.md)** - Security features and audit checklist
+- **[Deployment Guide](./DEPLOYMENT.md)** - Network configuration and deployment instructions
+- **[Testing Guide](./TESTING.md)** - Test coverage and scenarios
 
-### Dual-Location Architecture
+## 🔄 Technology Stack
 
-The project exists in two locations with coordinated functionality:
-
-**D:\recipe-protection** (Standalone dApp):
-- Complete static HTML frontend with inline JavaScript
-- Independent deployment configuration
-- Self-contained smart contracts and deployment scripts
-- Vercel-ready static site deployment
-
-**D:\fhevm-react-template\examples\recipe-protection** (SDK Integration):
-- Integrated with @fhevm/sdk package
-- Part of larger FHEVM React template ecosystem
-- Demonstrates SDK usage patterns
-- Linked to monorepo packages
-
-### Smart Contract Components
-
-```
-SecretRecipeProtection.sol
-├── Chef Management
-│   ├── Registration & Verification
-│   ├── Specialty Tracking
-│   └── Reputation System
-├── Recipe Storage
-│   ├── Encrypted Ingredients (FHE)
-│   ├── Metadata (Name, Category)
-│   └── Access Pricing
-├── Access Control
-│   ├── Request Processing
-│   ├── Payment Handling
-│   └── Permission Management
-└── Revelation System
-    ├── Decryption Authorization
-    └── Secret Disclosure
-```
-
-## 🛠️ Development Framework
-
-### Technology Stack
-
-**Smart Contract Development**:
+### Smart Contract Development
 - **Solidity**: v0.8.24 with Cancun EVM version
 - **Hardhat**: v2.19.0+ (Smart contract development framework)
 - **Optimization**: Enabled with 200 runs for gas efficiency
 - **FHE Integration**: @fhevm/solidity v0.5.0 for encrypted data types
 
-**Frontend Technologies**:
+### Frontend Technologies
 - **Static HTML/CSS/JS**: Pure vanilla JavaScript implementation
-- **Web3 Library**: ethers.js v5.7.2 for blockchain interaction
+- **Web3 Library**: ethers.js v6.10.0 for blockchain interaction
 - **Deployment**: Vercel with static site configuration
-- **Styling**: Custom CSS with cyberpunk/terminal theme
+- **Styling**: Custom CSS with modern UI/UX design
 
-**Development Tools**:
+### Development Tools
 - **@nomicfoundation/hardhat-toolbox**: Complete development toolkit
 - **@nomicfoundation/hardhat-verify**: Etherscan verification
 - **dotenv**: Environment variable management
-
-### Hardhat Configuration
-
-The project uses Hardhat as the primary development framework with:
-
-- **Compiler**: Solidity 0.8.24 with optimization enabled (200 runs)
-- **EVM Version**: Cancun (latest features support)
-- **Testing**: Comprehensive test suite with Chai matchers
-- **Networks**:
-  - **Zama Devnet**: https://devnet.zama.ai (Chain ID: 8009)
-  - **Localhost**: http://127.0.0.1:8545
-  - **Sepolia Testnet**: Chain ID 11155111
-- **Plugins**:
-  - `@nomicfoundation/hardhat-toolbox` - Complete development toolkit
-  - `@nomicfoundation/hardhat-verify` - Etherscan verification
-  - `dotenv` - Environment variable management
-
-### Dependencies
-
-**Production Dependencies**:
-```json
-{
-  "@fhevm/sdk": "file:../../packages/fhevm-sdk",
-  "@fhevm/solidity": "^0.5.0",
-  "ethers": "^6.10.0",
-  "hardhat": "^2.19.0"
-}
-```
-
-**Development Dependencies**:
-```json
-{
-  "@nomicfoundation/hardhat-toolbox": "^4.0.0"
-}
-```
-
-**Frontend Libraries** (CDN-loaded in index.html):
-- ethers.js v5.7.2 (via CDN)
-
-### Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm install` | Install all dependencies |
-| `npm run compile` | Compile smart contracts |
-| `npm test` | Run test suite |
-| `npm run deploy` | Deploy to configured network |
-| `npm run node` | Start local Hardhat node |
-
-## 📊 Contract Deployment
-
-### Sepolia Testnet
-
-**Contract Address**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612`
-
-**Network Details**:
-- Chain ID: 11155111
-- RPC URL: https://rpc.sepolia.org
-- Explorer: https://sepolia.etherscan.io
-
-**Verified Contract**: [View on Etherscan](https://sepolia.etherscan.io/address/0x72E13974c2158A875bAdbc860bfe7A3d932AA612)
-
-## 💻 Frontend Implementation
-
-### Static HTML Architecture
-
-The frontend is implemented as a single-page application using vanilla JavaScript:
-
-**File Structure**:
-- `index.html` - Complete application (29,698 bytes)
-  - Inline CSS styling (~500+ lines)
-  - Inline JavaScript (~1000+ lines)
-  - No build process required
-
-**Key Features**:
-- **Wallet Integration**: MetaMask connection and account management
-- **Contract Interaction**: Direct ethers.js integration for smart contract calls
-- **Responsive Design**: Mobile-friendly cyberpunk-themed interface
-- **Real-time Updates**: Dynamic UI updates based on blockchain state
-- **Form Validation**: Client-side validation for recipe submission
-- **Access Control UI**: Request, approval, and revelation workflows
-
-**Design Theme**:
-- Cyberpunk/terminal aesthetic with cyan and magenta accents
-- Glowing text effects and animated gradients
-- Card-based layout with backdrop blur effects
-- Responsive grid system for multiple screen sizes
-
-**Browser Compatibility**:
-- Modern browsers with ES6+ support
-- MetaMask or Web3-compatible wallet required
-- Ethers.js v5.7.2 loaded via CDN
-
-### Deployment Configuration
-
-**Vercel Configuration** (`vercel.json`):
-```json
-{
-  "version": 2,
-  "builds": [
-    { "src": "index.html", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
-}
-```
-
-This configuration enables:
-- Static file deployment
-- Single-page application routing
-- Fast global CDN distribution
-- Zero server-side processing required
-
-## 🔄 Technology Stack Comparison
-
-### Recipe Protection Implementations
-
-The project has two implementations serving different purposes:
-
-| Aspect | D:\recipe-protection | fhevm-react-template\examples\recipe-protection |
-|--------|---------------------------------------|------------------------------------------------|
-| **Frontend** | Static HTML/CSS/JS (29KB single file) | Static HTML/CSS/JS (same codebase) |
-| **Build Tool** | None (pure vanilla) | None (pure vanilla) |
-| **Dependencies** | ethers.js v5.7.2 (CDN) | ethers.js v5.7.2 (CDN) |
-| **SDK Integration** | Standalone | Linked to @fhevm/sdk package |
-| **Smart Contracts** | SecretRecipeProtection.sol, RecipeVault.sol | Same contracts |
-| **Deployment** | Vercel static | Vercel static |
-| **Purpose** | Production standalone dApp | SDK example/template |
-| **Package Manager** | npm (for Hardhat only) | npm (monorepo context) |
-
-### Technology Benefits
-
-**Static HTML Approach**:
-- ✅ Zero build time
-- ✅ No framework dependencies
-- ✅ Fast load times
-- ✅ Easy to deploy anywhere
-- ✅ Simple to understand and modify
-- ✅ No compilation step required
-
-**FHE Smart Contract Integration**:
-- ✅ Encrypted data storage on-chain
-- ✅ Privacy-preserving computations
-- ✅ Secure access control
-- ✅ Immutable ownership records
+- **Chai**: Testing framework
 
 ## 🧪 Testing
 
@@ -347,12 +251,15 @@ The project includes a comprehensive test suite covering:
 - Chef registration and profile management
 - Recipe creation with encrypted ingredients
 - Access request and approval workflows
+- Refund mechanisms (denial and timeout)
+- Gateway callback pattern
 - Recipe management (public/private, pricing)
+- Security features (reentrancy, overflow)
 - View functions and access control
 
 Run tests:
 ```bash
-npm test
+npx hardhat test
 ```
 
 Example output:
@@ -366,95 +273,40 @@ Example output:
       ✓ Should reject registration with empty name
     Recipe Creation
       ✓ Should allow a registered chef to create a recipe
-      ✓ Should reject recipe creation from unregistered chef
-    ...
+      ✓ Should encrypt ingredients with FHE
+      ✓ Should obfuscate prices with random multipliers
+    Access Control
+      ✓ Should allow requesting access with payment
+      ✓ Should approve and grant permissions
+      ✓ Should deny and issue automatic refund
+    Timeout Protection
+      ✓ Should allow claiming timeout refund after 7 days
+      ✓ Should prevent early timeout claims
+    Gateway Callback
+      ✓ Should request decryption via Gateway
+      ✓ Should process callback with proof verification
+      ✓ Should handle decryption failures gracefully
 ```
 
-## 📖 Use Cases
+## 📊 Gas Optimization
 
-### Professional Kitchens
+### HCU (Homomorphic Computation Unit) Management
 
-- Protect signature dish formulations
-- License recipes to franchises or partners
-- Maintain competitive advantage through encrypted formulas
-- Verify recipe authenticity and ownership
+| Operation | Gas Cost | HCU Usage |
+|-----------|----------|-----------|
+| Recipe Creation | 500k-800k | High (multiple FHE.asEuint*) |
+| Access Request | 100k-150k | Low (payment only) |
+| Access Approval | 200k-300k | Medium (FHE.allow calls) |
+| Recipe Reveal | 250k-400k | High (Gateway call) |
+| Refund | 60k-100k | Minimal (ETH transfer) |
 
-### Culinary Education
+### Optimization Strategies
 
-- Monetize teaching materials and techniques
-- Provide graduated access to student learners
-- Track recipe usage and attribution
-- Create verifiable certification programs
-
-### Food Industry
-
-- Safeguard proprietary seasoning blends
-- Secure beverage formulations
-- Protect manufacturing processes
-- Enable B2B recipe licensing
-
-### Recipe Creators
-
-- Establish intellectual property rights
-- Generate passive income from creations
-- Build reputation through verified recipes
-- Collaborate without exposing secrets
-
-## 🔒 Security Features
-
-- **MetaMask Integration** - Secure wallet connection for all transactions
-- **FHE Encryption** - Industry-leading homomorphic encryption for data privacy
-- **Smart Contract Auditing** - Transparent on-chain logic for trust verification
-- **Access Logging** - Immutable record of all recipe access events
-- **Payment Escrow** - Automated payment distribution upon access approval
-- **Role-Based Access Control** - Chef ownership and permission management
-- **Tested & Verified** - Comprehensive test coverage and Etherscan verification
-
-## 🌟 Why FHE for Recipes?
-
-Traditional encryption requires decryption before computation, exposing sensitive data. FHE enables:
-
-1. **Price Verification** - Check access fees without revealing recipe contents
-2. **Category Filtering** - Search recipes while keeping ingredients encrypted
-3. **Reputation Calculations** - Compute chef ratings without exposing formulas
-4. **Access Counting** - Track popularity metrics on encrypted data
-5. **Ownership Proofs** - Verify authorship without recipe disclosure
-
-## 🎓 Educational Resources
-
-This project demonstrates practical applications of:
-
-- **Fully Homomorphic Encryption** in blockchain smart contracts
-- **Privacy-preserving smart contract design** with encrypted data types
-- **Decentralized access control systems** for intellectual property
-- **Web3 integration** with vanilla JavaScript (no framework overhead)
-- **Cryptographic recipe protection** methodologies
-- **Hardhat development** and testing workflows
-- **Professional deployment** and verification practices
-- **Static site deployment** with Vercel for Web3 dApps
-- **EVM Cancun features** and optimization strategies
-- **Zama FHEVM integration** with practical use cases
-
-### Key Learning Points
-
-1. **Simple Frontend Stack**: Demonstrates that complex Web3 functionality doesn't require heavy frameworks
-2. **FHE Implementation**: Shows real-world FHE usage in Solidity with @fhevm/solidity
-3. **Deployment Strategies**: Covers both standalone and monorepo integration patterns
-4. **Gas Optimization**: 200-run optimization for production-ready contracts
-5. **Network Configuration**: Multi-network support (Zama, Localhost, Sepolia)
-
-## 🤝 Contributing
-
-We welcome contributions from the community! This project serves as a reference implementation for FHE-based privacy solutions and can be adapted for various industries beyond culinary applications.
-
-Potential areas for enhancement:
-- Multi-ingredient support (beyond three ingredients)
-- Recipe versioning and update mechanisms
-- Collaborative recipe development tools
-- Integration with IoT kitchen devices
-- NFT representation of signature recipes
-- Advanced access control mechanisms
-- Recipe marketplace features
+1. **Batch Permissions** - Setup all FHE.allow() in single transaction
+2. **Lazy Decryption** - Only decrypt when explicitly requested
+3. **Caching** - Store public values separately from encrypted
+4. **Selective Encryption** - Only encrypt truly sensitive fields
+5. **Price Obfuscation** - Avoid division through multiplication
 
 ## 📝 Smart Contract Functions
 
@@ -473,17 +325,82 @@ Potential areas for enhancement:
 ### Access Control
 - `requestRecipeAccess(recipeId)` - Request access to a recipe (payable)
 - `approveAccess(requestId)` - Approve an access request (chef only)
-- `denyAccess(requestId)` - Deny an access request (chef only)
+- `denyAccess(requestId)` - Deny an access request with refund (chef only)
 - `checkRecipeAccess(user, recipeId)` - Check if user has access
-- `revealRecipeSecrets(recipeId)` - Reveal encrypted recipe data
+- `claimTimeoutRefund(requestId)` - Claim refund after timeout
+
+### Decryption (Gateway Pattern)
+- `revealRecipeSecrets(recipeId)` - Request decryption via Gateway
+- `processRecipeReveal(requestId, cleartexts, proof)` - Gateway callback (internal)
+
+### View Functions
+- `compareSpiceLevels(recipeId1, recipeId2)` - Compare encrypted spice levels
+- `getAccessRequest(requestId)` - Get access request details
+
+## 🔒 Security Features
+
+- **MetaMask Integration** - Secure wallet connection for all transactions
+- **FHE Encryption** - Industry-leading homomorphic encryption for data privacy
+- **Smart Contract Auditing** - Transparent on-chain logic for trust verification
+- **Access Logging** - Immutable record of all recipe access events
+- **Payment Escrow** - Secure payment holding during request processing
+- **Automatic Refunds** - Built-in refund mechanisms for denied/timed-out requests
+- **Role-Based Access Control** - Chef ownership and permission management
+- **Reentrancy Protection** - Guards against reentrancy attacks
+- **Input Validation** - Comprehensive validation of all inputs
+- **Overflow Protection** - Constants and checks prevent arithmetic overflows
+- **Tested & Verified** - Comprehensive test coverage with security focus
+
+## 🌟 Why FHE for Recipes?
+
+Traditional encryption requires decryption before computation, exposing sensitive data. FHE enables:
+
+1. **Price Verification** - Check access fees without revealing recipe contents
+2. **Category Filtering** - Search recipes while keeping ingredients encrypted
+3. **Reputation Calculations** - Compute chef ratings without exposing formulas
+4. **Access Counting** - Track popularity metrics on encrypted data
+5. **Ownership Proofs** - Verify authorship without recipe disclosure
+6. **Privacy-Preserving Comparisons** - Compare recipes without revealing details
+
+## 🎓 Educational Resources
+
+This project demonstrates practical applications of:
+
+- **Fully Homomorphic Encryption** in blockchain smart contracts
+- **Gateway Callback Pattern** for asynchronous FHE operations
+- **Privacy-preserving smart contract design** with encrypted data types
+- **Refund mechanisms** and timeout protection patterns
+- **Price obfuscation techniques** using random multipliers
+- **Decentralized access control systems** for intellectual property
+- **Web3 integration** with vanilla JavaScript (no framework overhead)
+- **Cryptographic recipe protection** methodologies
+- **Hardhat development** and testing workflows
+- **Professional deployment** and verification practices
+- **Gas optimization** strategies for FHE operations
+- **Security best practices** (reentrancy, overflow, validation)
+
+## 🤝 Contributing
+
+We welcome contributions from the community! This project serves as a reference implementation for FHE-based privacy solutions and can be adapted for various industries beyond culinary applications.
+
+Potential areas for enhancement:
+- Multi-ingredient support (beyond three ingredients)
+- Recipe versioning and update mechanisms
+- Collaborative recipe development tools
+- Integration with IoT kitchen devices
+- NFT representation of signature recipes
+- Advanced access control mechanisms (time-limited access)
+- Recipe marketplace with automated pricing
+- Reputation-based discounts
+- Batch operations for efficiency
 
 ## 📞 Contact & Support
 
 For questions, suggestions, or collaboration opportunities:
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/MayeSchuppe/FHERecipeProtection/issues)
+- **GitHub Issues**: Report bugs or request features
 - **Discussions**: Join our community forum for technical discussions
-- **Website**: Visit our live platform for demonstrations
+- **Documentation**: Comprehensive docs in the `/docs` folder
 
 ## 📄 License
 
@@ -493,33 +410,60 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 Secret Recipe Protection represents the future of culinary intellectual property management. By combining blockchain transparency with FHE privacy, we enable a new economy where chefs can confidently share their expertise while maintaining control over their most valuable assets - their secret recipes.
 
----
-
-## 📝 Recent Updates
-
-### Technology Stack Documentation (Latest)
-
-This README has been enhanced with comprehensive technology stack information including:
-
-- ✅ **Complete Dependencies**: All production and development dependencies documented
-- ✅ **Frontend Architecture**: Static HTML implementation details with file sizes
-- ✅ **Network Configuration**: Zama Devnet, Localhost, and Sepolia configuration
-- ✅ **Deployment Details**: Vercel configuration and deployment strategy
-- ✅ **EVM Version**: Cancun EVM features documented
-- ✅ **Optimization Settings**: 200-run optimization for gas efficiency
-- ✅ **Dual-Location Setup**: Both standalone and monorepo integrations explained
-- ✅ **Technology Comparison**: Side-by-side comparison table of implementations
-- ✅ **CDN Dependencies**: ethers.js v5.7.2 CDN integration documented
-
-### Project Locations
-
-1. **D:\recipe-protection**: Standalone production dApp
-2. **D:\fhevm-react-template\examples\recipe-protection**: SDK integration example
-
-Both implementations share the same smart contracts and frontend code, but serve different purposes in the ecosystem.
+The Gateway callback pattern ensures reliable asynchronous processing, while comprehensive refund mechanisms and timeout protection guarantee that funds are never permanently locked. Privacy-preserving price obfuscation techniques prevent pattern analysis, and extensive security features protect both users and their intellectual property.
 
 ---
 
-**Built with cutting-edge FHE technology and Hardhat development framework to protect culinary innovation worldwide.**
+## 📝 Version History
 
-**Deployment**: Sepolia Testnet | **Contract**: `0x72E13974c2158A875bAdbc860bfe7A3d932AA612` | **Framework**: Hardhat v2.19.0+ | **Solidity**: v0.8.24 (Cancun) | **Frontend**: Vanilla JavaScript + ethers.js v5.7.2
+### Version 2.0 (Current) - Enhanced Security & Privacy
+
+**Major Enhancements**:
+- ✅ Gateway callback pattern for async operations
+- ✅ Comprehensive refund mechanisms
+- ✅ Timeout protection (7-day default)
+- ✅ Privacy-preserving price obfuscation
+- ✅ Reentrancy protection
+- ✅ Input validation with max lengths
+- ✅ Overflow protection constants
+- ✅ Enhanced documentation (Architecture + API)
+
+**Security Improvements**:
+- ✅ NonReentrant modifier on payment functions
+- ✅ ValidString modifier for input validation
+- ✅ MAX_ACCESS_PRICE constant (10 ETH cap)
+- ✅ REQUEST_TIMEOUT constant (7 days)
+- ✅ Emergency withdraw for owner
+
+**New Features**:
+- ✅ claimTimeoutRefund() function
+- ✅ getAccessRequest() view function
+- ✅ DecryptionFailed event handling
+- ✅ TimeoutRefundIssued events
+- ✅ AccessRefunded events
+- ✅ Obfuscation multiplier for prices
+
+### Version 1.0 - Initial Release
+
+- Basic recipe creation and management
+- FHE encryption for ingredients
+- Access request/approval system
+- Chef registration and profiles
+- Recipe revelation with decryption
+
+---
+
+## 🔗 Quick Links
+
+- **Documentation**: [./docs/](./docs/)
+- **Architecture**: [./docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+- **API Reference**: [./docs/API.md](./docs/API.md)
+- **Security**: [./SECURITY.md](./SECURITY.md)
+- **Testing**: [./TESTING.md](./TESTING.md)
+- **Deployment**: [./DEPLOYMENT.md](./DEPLOYMENT.md)
+
+---
+
+**Built with cutting-edge FHE technology and comprehensive security features to protect culinary innovation worldwide.**
+
+**Framework**: Hardhat v2.19.0+ | **Solidity**: v0.8.24 (Cancun) | **FHE**: @fhevm/solidity v0.5.0 | **Pattern**: Gateway Callback | **Security**: Reentrancy Protected + Input Validated + Overflow Protected
